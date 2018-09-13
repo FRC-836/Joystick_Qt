@@ -1,7 +1,7 @@
 #include "Joystick.h"
 
 //defaults
-const QColor Joystick::DEFAULT_DOT_COLOR = QColor(255, 0, 0);
+const QColor Joystick::DEFAULT_DOT_COLOR = QColor(0, 0, 255);
 const QColor Joystick::DEFAULT_CIRCLE_COLOR = QColor(109, 109, 109);
 const QColor Joystick::DEFAULT_DEADBAND_COLOR = QColor(153, 12, 141);
 
@@ -36,13 +36,15 @@ void Joystick::paintEvent(QPaintEvent* e)
   QPainterPath deadbandPath;
   auto deadbandWidth = width() * m_xDeadband;
   auto deadbandHeight = height() * m_yDeadband;
-  deadbandPath.addEllipse(widgetCenterX, widgetCenterY, deadbandWidth, deadbandHeight);
+  auto deadbandX = widgetCenterX - (deadbandWidth / 2);
+  auto deadbandY = widgetCenterY - (deadbandHeight / 2);
+  deadbandPath.addEllipse(deadbandX, deadbandY, deadbandWidth, deadbandHeight);
 
   QPainterPath dotPath;
   auto dotWidth = width() * m_dotScale;
   auto dotHeight = height() * m_dotScale;
-  auto dotX = widgetCenterX + m_xVal;
-  auto dotY = widgetCenterY + m_yVal;
+  auto dotX = (widgetCenterX - (dotWidth / 2)) + (width() * (m_xVal / 2));
+  auto dotY = (widgetCenterY - (dotHeight / 2)) + (height() * (m_yVal / 2));
   dotPath.addEllipse(dotX, dotY, dotWidth, dotHeight);
 
   QPainter painter(this);
@@ -183,6 +185,8 @@ void Joystick::setXVal(double newX)
   m_xVal = newX;
 
   emit xChanged(oldX, newX);
+
+  repaint();
 }
 void Joystick::setYVal(double newY)
 {
@@ -194,6 +198,8 @@ void Joystick::setYVal(double newY)
   m_yVal = newY;
 
   emit yChanged(oldY, newY);
+
+  repaint();
 }
 void Joystick::setScale(double newScale)
 {

@@ -16,7 +16,7 @@ private:
   //member data
   double m_xVal; //current x value of the joystick [-1.0, 1.0]
   double m_yVal; //current y value of the joystick [-1.0, 1.0]
-  double m_dotScale; //multiplier applied to widget size to figure out dot's size [0, 1.0]
+  double m_dotScale; //multiplier applied to widget size to figure out dot's size
   double m_xDeadband; //x deadband, magnitude of x has to be greater than this to register
   double m_yDeadband; //y deadband, magnitude of y has to be greater than this ti register
   QColor m_dotColor; //color the dot representing where the joystick is is
