@@ -71,24 +71,31 @@ Joystick::~Joystick()
 //getters
 double Joystick::xVal() const
 {
+  return m_xVal;
 }
 double Joystick::yVal() const
 {
+  return m_yVal;
 }
 double Joystick::xDeadband() const
 {
+  return m_xDeadband;
 }
 double Joystick::yDeadband() const
 {
+  return m_yDeadband;
 }
 QColor Joystick::dotColor() const
 {
+  return m_dotColor;
 }
 QColor Joystick::circleColor() const
 {
+  return m_circleColor;
 }
 QColor Joystick::deadbandColor() const
 {
+  return m_deadbandColor;
 }
 
 //setters
