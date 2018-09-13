@@ -18,11 +18,49 @@ void Joystick::init(double xVal, double yVal, double xDeadband, double yDeadband
   setDotColor(dotColor);
   setCircleColor(circleColor);
   setDeadbandColor(deadbandColor);
+
+  m_dotScale = 0.05;
 }
 
 //event handlers
 void Joystick::paintEvent(QPaintEvent* e)
 {
+  //generate the circle representing total range of motion of the joystick
+  QPainterPath circlePath;
+  circlePath.addEllipse(rect());
+
+  auto widgetCenterX = width() / 2;
+  auto widgetCenterY = height() / 2;
+
+  //generate circle representing deadband
+  QPainterPath deadbandPath;
+  auto deadbandWidth = width() * m_xDeadband;
+  auto deadbandHeight = height() * m_yDeadband;
+  deadbandPath.addEllipse(widgetCenterX, widgetCenterY, deadbandWidth, deadbandHeight);
+
+  QPainterPath dotPath;
+  auto dotWidth = width() * m_dotScale;
+  auto dotHeight = height() * m_dotScale;
+  auto dotX = widgetCenterX + m_xVal;
+  auto dotY = widgetCenterY + m_yVal;
+  dotPath.addEllipse(dotX, dotY, dotWidth, dotHeight);
+
+  QPainter painter(this);
+
+  //draw circle
+  painter.setPen(QPen(m_circleColor));
+  painter.setBrush(QBrush(m_circleColor));
+  painter.drawPath(circlePath);
+
+  //draw deadband
+  painter.setPen(QPen(m_deadbandColor));
+  painter.setBrush(QBrush(m_deadbandColor));
+  painter.drawPath(deadbandPath);
+
+  //draw dot
+  painter.setPen(QPen(m_dotColor));
+  painter.setBrush(QBrush(m_dotColor));
+  painter.drawPath(dotPath);
 }
 
 //constructors
@@ -165,13 +203,13 @@ void Joystick::setScale(double newScale)
 }
 void Joystick::setXDeadband(double newXDeadband)
 {
-  newXDeadband = (newXDeadband < -1.0) ? -1.0 : newXDeadband;
+  newXDeadband = (newXDeadband < 0) ? 0 : newXDeadband;
   newXDeadband = (newXDeadband > 1.0) ? 1.0 : newXDeadband;
   m_xDeadband = newXDeadband;
 }
 void Joystick::setyDeadband(double newYDeadband)
 {
-  newYDeadband = (newYDeadband < -1.0) ? -1.0 : newYDeadband;
+  newYDeadband = (newYDeadband < 0) ? 0 : newYDeadband;
   newYDeadband = (newYDeadband > 1.0) ? 1.0 : newYDeadband;
   m_yDeadband = newYDeadband;
 }
