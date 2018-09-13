@@ -1,10 +1,23 @@
 #include "Joystick.h"
 
+//defaults
+const QColor Joystick::DEFAULT_DOT_COLOR = QColor(255, 0, 0);
+const QColor Joystick::DEFAULT_CIRCLE_COLOR = QColor(109, 109, 109);
+const QColor Joystick::DEFAULT_DEADBAND_COLOR = QColor(153, 12, 141);
+
+
 //private functions
 void Joystick::init(double xVal, double yVal, double xDeadband, double yDeadband,
                     const QColor& dotColor, const QColor& circleColor,
                     const QColor& deadbandColor)
 {
+  setXVal(xVal);
+  setYVal(yVal);
+  setXDeadband(xDeadband);
+  setyDeadband(yDeadband);
+  setDotColor(dotColor);
+  setCircleColor(circleColor);
+  setDeadbandColor(deadbandColor);
 }
 
 //event handlers
@@ -13,54 +26,73 @@ void Joystick::paintEvent(QPaintEvent* e)
 }
 
 //constructors
-Joystick::Joystick(QWidget* parent)
+Joystick::Joystick(QWidget* parent) :
+  QWidget(parent)
 {
+  init(0.0, 0.0, 0.0, 0.0, DEFAULT_DOT_COLOR, DEFAULT_CIRCLE_COLOR, DEFAULT_DEADBAND_COLOR);
 }
-Joystick::Joystick(double xVal, double yVal, QWidget* parent)
+Joystick::Joystick(double xVal, double yVal, QWidget* parent) :
+  QWidget(parent)
 {
+  init(xVal, yVal, 0.0, 0.0, DEFAULT_DOT_COLOR, DEFAULT_CIRCLE_COLOR, DEFAULT_DEADBAND_COLOR);
 }
-Joystick::Joystick(const QColor& dotColor, QWidget* parent)
+Joystick::Joystick(const QColor& dotColor, QWidget* parent) :
+  QWidget(parent)
 {
+  init(0.0, 0.0, 0.0, 0.0, dotColor, DEFAULT_CIRCLE_COLOR, DEFAULT_DEADBAND_COLOR);
 }
-Joystick::Joystick(const QColor& dotColor, const QColor& circleColor, QWidget* parent)
+Joystick::Joystick(const QColor& dotColor, const QColor& circleColor, QWidget* parent) :
+  QWidget(parent)
 {
+  init(0.0, 0.0, 0.0, 0.0, dotColor, circleColor, DEFAULT_DEADBAND_COLOR);
 }
 Joystick::Joystick(const QColor& dotColor, const QColor& circleColor, const QColor& deadbandColor,
-                   QWidget* parent)
+                   QWidget* parent) :
+  QWidget(parent)
 {
+  init(0.0, 0.0, 0.0, 0.0, dotColor, circleColor, deadbandColor);
 }
-Joystick::Joystick(double xVal, double yVal, const QColor& dotColor, QWidget* parent)
+Joystick::Joystick(double xVal, double yVal, const QColor& dotColor, QWidget* parent) :
+  QWidget(parent)
 {
+  init(xVal, yVal, 0.0, 0.0, dotColor, DEFAULT_CIRCLE_COLOR, DEFAULT_DEADBAND_COLOR);
 }
 Joystick::Joystick(double xVal, double yVal, const QColor& dotColor, const QColor& circleColor,
-                   QWidget* parent)
+                   QWidget* parent) :
+  QWidget(parent)
 {
+  init(xVal, yVal, 0.0, 0.0, dotColor, circleColor, DEFAULT_DEADBAND_COLOR);
 }
 Joystick::Joystick(double xVal, double yVal, const QColor& dotColor, const QColor& circleColor,
-                   const QColor& deadbandColor, QWidget* parent)
+                   const QColor& deadbandColor, QWidget* parent) :
+  QWidget(parent)
 {
+  init(xVal, yVal, 0.0, 0.0, dotColor, circleColor, deadbandColor);
 }
 Joystick::Joystick(double xVal, double yVal, double xDeadband, double ydeadBand,
-                   QWidget* parent)
+                   QWidget* parent) :
+  QWidget(parent)
 {
+  init(xVal, yVal, xDeadband, ydeadBand, DEFAULT_DOT_COLOR, DEFAULT_CIRCLE_COLOR, DEFAULT_DEADBAND_COLOR);
 }
 Joystick::Joystick(double xVal, double yVal, double xDeadband, double ydeadBand,
-                   const QColor& dotColor,
-                   QWidget* parent)
+                   const QColor& dotColor, QWidget* parent) :
+  QWidget(parent)
 {
+  init(xVal, yVal, xDeadband, ydeadBand, dotColor, DEFAULT_CIRCLE_COLOR, DEFAULT_DEADBAND_COLOR);
 }
 Joystick::Joystick(double xVal, double yVal, double xDeadband, double ydeadBand,
-                   const QColor& dotColor,
-                   const QColor& circleColor,
-                   QWidget* parent)
+                   const QColor& dotColor, const QColor& circleColor, QWidget* parent) :
+  QWidget(parent)
 {
+  init(xVal, yVal, xDeadband, ydeadBand, dotColor, circleColor, DEFAULT_DEADBAND_COLOR);
 }
 Joystick::Joystick(double xVal, double yVal, double xDeadband, double ydeadBand,
-                   const QColor& dotColor,
-                   const QColor& circleColor,
-                   const QColor& deadbandColor,
-                   QWidget* parent)
+                   const QColor& dotColor, const QColor& circleColor, const QColor& deadbandColor,
+                   QWidget* parent) :
+  QWidget(parent)
 {
+  init(xVal, yVal, xDeadband, ydeadBand, dotColor, circleColor, deadbandColor);
 }
 Joystick::~Joystick()
 {
