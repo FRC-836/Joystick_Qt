@@ -40,11 +40,23 @@ void Joystick::paintEvent(QPaintEvent* e)
   auto deadbandY = widgetCenterY - (deadbandHeight / 2);
   deadbandPath.addEllipse(deadbandX, deadbandY, deadbandWidth, deadbandHeight);
 
+  //generate circle representing the joystick position
   QPainterPath dotPath;
   auto dotWidth = width() * m_dotScale;
   auto dotHeight = height() * m_dotScale;
   auto dotX = (widgetCenterX - (dotWidth / 2)) + (width() * (m_xVal / 2));
   auto dotY = (widgetCenterY - (dotHeight / 2)) + (height() * (m_yVal / 2));
+
+  //check if the joystick is in the deadzone, if it is, zero the values used to paint
+  if (abs(m_xVal) < m_xDeadband)
+  {
+    dotX = widgetCenterX;
+  } //end  if (abs(dotX) < m_xDeadband || abs(dotY) < m_yDeadband))
+  if (abs(m_yVal) < m_yDeadband)
+  {
+    dotY = widgetCenterY;
+  } //end  if (abs(dotX) < m_xDeadband || abs(dotY) < m_yDeadband))
+
   dotPath.addEllipse(dotX, dotY, dotWidth, dotHeight);
 
   QPainter painter(this);
