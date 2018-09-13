@@ -109,6 +109,10 @@ double Joystick::yVal() const
 {
   return m_yVal;
 }
+double Joystick::scale() const
+{
+  return m_dotScale;
+}
 double Joystick::xDeadband() const
 {
   return m_xDeadband;
@@ -152,6 +156,12 @@ void Joystick::setYVal(double newY)
   m_yVal = newY;
 
   emit yChanged(oldY, newY);
+}
+void Joystick::setScale(double newScale)
+{
+  newScale = (newScale < 0) ? 0 : newScale;
+  newScale = (newScale > 1.0) ? 1.0 : newScale;
+  m_dotScale = newScale;
 }
 void Joystick::setXDeadband(double newXDeadband)
 {

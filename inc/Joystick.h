@@ -14,8 +14,9 @@ class Joystick : public QWidget
 
 private:
   //member data
-  double m_xVal; //current x value of the joystick
-  double m_yVal; //current y value of the joystick
+  double m_xVal; //current x value of the joystick [-1.0, 1.0]
+  double m_yVal; //current y value of the joystick [-1.0, 1.0]
+  double m_dotScale; //multiplier applied to widget size to figure out dot's size [0, 1.0]
   double m_xDeadband; //x deadband, magnitude of x has to be greater than this to register
   double m_yDeadband; //y deadband, magnitude of y has to be greater than this ti register
   QColor m_dotColor; //color the dot representing where the joystick is is
@@ -65,6 +66,7 @@ public:
   //getters
   double xVal() const;
   double yVal() const;
+  double scale() const;
   double xDeadband() const;
   double yDeadband() const;
   QColor dotColor() const;
@@ -74,6 +76,7 @@ public:
   //setters
   void setXVal(double newX);
   void setYVal(double newY);
+  void setScale(double scale);
   void setXDeadband(double newXDeadband);
   void setyDeadband(double newXDeadband);
   void setDotColor(const QColor& newColor);
