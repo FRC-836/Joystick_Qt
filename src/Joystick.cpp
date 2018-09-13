@@ -133,15 +133,25 @@ QColor Joystick::deadbandColor() const
 //setters
 void Joystick::setXVal(double newX)
 {
+  //store current x for the signal
+  auto oldX = m_xVal;
+
   newX = (newX > 1.0) ? 1.0 : newX;
   newX = (newX < -1.0) ? -1.0 : newX;
   m_xVal = newX;
+
+  emit xChanged(oldX, newX);
 }
 void Joystick::setYVal(double newY)
 {
+  //store current y for the signal
+  auto oldY = m_yVal;
+
   newY = (newY > 1.0) ? 1.0 : newY;
   newY = (newY < -1.0) ? -1.0 : newY;
   m_yVal = newY;
+
+  emit yChanged(oldY, newY);
 }
 void Joystick::setXDeadband(double newXDeadband)
 {
@@ -180,18 +190,12 @@ void Joystick::setDeadbandColor(int r, int g, int b)
   setCircleColor(QColor(r, g, b));
 }
 
-//signals
-void Joystick::xChanged(double oldX, double newX)
-{
-}
-void Joystick::yChanged(double oldY, double newY)
-{
-}
-
 //public slots
 void Joystick::updateX(double newX)
 {
+  setXVal(newX);
 }
 void Joystick::updateY(double newY)
 {
+  setYVal(newY);
 }
