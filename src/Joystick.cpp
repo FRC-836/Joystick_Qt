@@ -99,35 +99,53 @@ QColor Joystick::deadbandColor() const
 }
 
 //setters
-bool Joystick::setXVal(double newX)
+void Joystick::setXVal(double newX)
 {
+  newX = (newX > 1.0) ? 1.0 : newX;
+  newX = (newX < -1.0) ? -1.0 : newX;
+  m_xVal = newX;
 }
-bool Joystick::setYVal(double newY)
+void Joystick::setYVal(double newY)
 {
+  newY = (newY > 1.0) ? 1.0 : newY;
+  newY = (newY < -1.0) ? -1.0 : newY;
+  m_yVal = newY;
 }
 void Joystick::setXDeadband(double newXDeadband)
 {
+  newXDeadband = (newXDeadband < -1.0) ? -1.0 : newXDeadband;
+  newXDeadband = (newXDeadband > 1.0) ? 1.0 : newXDeadband;
+  m_xDeadband = newXDeadband;
 }
-void Joystick::setyDeadband(double newXDeadband)
+void Joystick::setyDeadband(double newYDeadband)
 {
+  newYDeadband = (newYDeadband < -1.0) ? -1.0 : newYDeadband;
+  newYDeadband = (newYDeadband > 1.0) ? 1.0 : newYDeadband;
+  m_yDeadband = newYDeadband;
 }
 void Joystick::setDotColor(const QColor& newColor)
 {
+  m_dotColor = newColor;
 }
 void Joystick::setDotColor(int r, int g, int b)
 {
+  setDotColor(QColor(r, g, b));
 }
 void Joystick::setCircleColor(const QColor& newColor)
 {
+  m_circleColor = newColor;
 }
 void Joystick::setCircleColor(int r, int g, int b)
 {
+  setCircleColor(QColor(r, g, b));
 }
 void Joystick::setDeadbandColor(const QColor& newColor)
 {
+  m_deadbandColor = newColor;
 }
 void Joystick::setDeadbandColor(int r, int g, int b)
 {
+  setCircleColor(QColor(r, g, b));
 }
 
 //signals
