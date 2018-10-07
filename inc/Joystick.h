@@ -93,6 +93,8 @@ signals:
   //signals
   void xChanged(double oldX, double newX);
   void yChanged(double oldY, double newY);
+  void deadbandXChanged(double oldX, double newX);
+  void deadbandYChanged(double oldY, double newY);
 
 public slots:
   //public slots
