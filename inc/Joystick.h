@@ -18,7 +18,7 @@ private:
   double m_yVal; //current y value of the joystick [-1.0, 1.0]
   double m_dotScale; //multiplier applied to widget size to figure out dot's size
   double m_xDeadband; //x deadband, magnitude of x has to be greater than this to register
-  double m_yDeadband; //y deadband, magnitude of y has to be greater than this ti register
+  double m_yDeadband; //y deadband, magnitude of y has to be greater than this to register
   QColor m_dotColor; //color the dot representing where the joystick is is
   QColor m_circleColor; //color of the circle representing the whole joystick range
   QColor m_deadbandColor; //color of the circle representing the deadband area 
@@ -27,6 +27,9 @@ private:
   static const QColor DEFAULT_DOT_COLOR;
   static const QColor DEFAULT_CIRCLE_COLOR;
   static const QColor DEFAULT_DEADBAND_COLOR;
+
+  //constants
+  static const double DIFF_TO_FORCE_REDRAW; //how large newVal-oldVal must be to cause redraw
 
   //private functions
   void init(double xVal, double yVal, double xDeadband, double yDeadband, 
@@ -78,7 +81,7 @@ public:
   void setYVal(double newY);
   void setScale(double scale);
   void setXDeadband(double newXDeadband);
-  void setyDeadband(double newXDeadband);
+  void setYDeadband(double newXDeadband);
   void setDotColor(const QColor& newColor);
   void setDotColor(int r, int g, int b);
   void setCircleColor(const QColor& newColor);
