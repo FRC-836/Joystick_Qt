@@ -5,6 +5,8 @@ const QColor Joystick::DEFAULT_DOT_COLOR = QColor(0, 0, 255);
 const QColor Joystick::DEFAULT_CIRCLE_COLOR = QColor(109, 109, 109);
 const QColor Joystick::DEFAULT_DEADBAND_COLOR = QColor(153, 12, 141);
 
+//constants
+const double Joystick::DIFF_TO_FORCE_REDRAW = 0.0000000001;
 
 //private functions
 void Joystick::init(double xVal, double yVal, double xDeadband, double yDeadband,
@@ -14,7 +16,7 @@ void Joystick::init(double xVal, double yVal, double xDeadband, double yDeadband
   setXVal(xVal);
   setYVal(yVal);
   setXDeadband(xDeadband);
-  setyDeadband(yDeadband);
+  setYDeadband(yDeadband);
   setDotColor(dotColor);
   setCircleColor(circleColor);
   setDeadbandColor(deadbandColor);
@@ -189,29 +191,41 @@ QColor Joystick::deadbandColor() const
 //setters
 void Joystick::setXVal(double newX)
 {
-  //store current x for the signal
-  auto oldX = m_xVal;
+  if (std::abs(m_xVal - newX) >= DIFF_TO_FORCE_REDRAW)
+  {
+    //store current x for the signal
+    auto oldX = m_xVal;
 
-  newX = (newX > 1.0) ? 1.0 : newX;
-  newX = (newX < -1.0) ? -1.0 : newX;
-  m_xVal = newX;
+    //update value, cropping to reasonable numbers
+    newX = (newX > 1.0) ? 1.0 : newX;
+    newX = (newX < -1.0) ? -1.0 : newX;
+    m_xVal = newX;
 
-  emit xChanged(oldX, newX);
+    //redraw widget
+    repaint();
 
-  repaint();
+    //emit signal
+    emit xChanged(oldX, newX);
+  } //end  if (std::abs(m_xVal - newX) >= DIFF_TO_FORCE_REDRAW)
 }
 void Joystick::setYVal(double newY)
 {
-  //store current y for the signal
-  auto oldY = m_yVal;
+  if (std::abs(m_yVal - newY) >= DIFF_TO_FORCE_REDRAW)
+  {
+    //store current y for the signal
+    auto oldY = m_yVal;
 
-  newY = (newY > 1.0) ? 1.0 : newY;
-  newY = (newY < -1.0) ? -1.0 : newY;
-  m_yVal = newY;
+    //update y value, cropping input to reasonable values
+    newY = (newY > 1.0) ? 1.0 : newY;
+    newY = (newY < -1.0) ? -1.0 : newY;
+    m_yVal = newY;
 
-  emit yChanged(oldY, newY);
+    //redraw widget
+    repaint();
 
-  repaint();
+    //emit signal
+    emit yChanged(oldY, newY);
+  } //end  if (std::abs(m_yVal - newY) >= DIFF_TO_FORCE_REDRAW)
 }
 void Joystick::setScale(double newScale)
 {
@@ -221,15 +235,41 @@ void Joystick::setScale(double newScale)
 }
 void Joystick::setXDeadband(double newXDeadband)
 {
-  newXDeadband = (newXDeadband < 0) ? 0 : newXDeadband;
-  newXDeadband = (newXDeadband > 1.0) ? 1.0 : newXDeadband;
-  m_xDeadband = newXDeadband;
+  if (std::abs(m_xDeadband - newXDeadband) >= DIFF_TO_FORCE_REDRAW)
+  {
+    //store current deadband x for signal
+    auto oldX = m_xDeadband;
+
+    //update the deadband, cropping the input to reasonable values
+    newXDeadband = (newXDeadband < 0) ? 0 : newXDeadband;
+    newXDeadband = (newXDeadband > 1.0) ? 1.0 : newXDeadband;
+    m_xDeadband = newXDeadband;
+
+    //redraw widget
+    repaint();
+
+    //emit signal
+    emit deadbandXChanged(oldX, newXDeadband);
+  } //end  if (std::abs(m_xDeadband - newXDeadband) >= DIFF_TO_FORCE_REDRAW)
 }
-void Joystick::setyDeadband(double newYDeadband)
+void Joystick::setYDeadband(double newYDeadband)
 {
-  newYDeadband = (newYDeadband < 0) ? 0 : newYDeadband;
-  newYDeadband = (newYDeadband > 1.0) ? 1.0 : newYDeadband;
-  m_yDeadband = newYDeadband;
+  if (std::abs(m_yDeadband - newYDeadband) >= DIFF_TO_FORCE_REDRAW)
+  {
+    //store old value for signal
+    auto oldY = m_yDeadband;
+
+    //update deadband, cropping input to reasonable values
+    newYDeadband = (newYDeadband < 0) ? 0 : newYDeadband;
+    newYDeadband = (newYDeadband > 1.0) ? 1.0 : newYDeadband;
+    m_yDeadband = newYDeadband;
+
+    //redraw widget
+    repaint();
+
+    //emit signal
+    emit deadbandYChanged(oldY, newYDeadband);
+  } //end  if (std::abs(m_yDeadband - newYDeadband) >= DIFF_TO_FORCE_REDRAW)
 }
 void Joystick::setDotColor(const QColor& newColor)
 {
